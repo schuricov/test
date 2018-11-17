@@ -1,0 +1,50 @@
+#!/bin/bash
+
+#conditional for entering argument
+
+# checking came parametrs
+if [[ -n $1 ]]
+then
+
+case $1 in
+
+    get)
+        for a in 0 1 2 3 4 5 6
+        do
+        #echo $(i2cget -y 0 0x68 0x0$a)":0x0"$a >> b
+        echo $(i2cget -y 0 0x68 0x0$a) >> b
+        done
+
+        #cat b
+        # s - заменяем 0x в строках которые начинаются с 0x на пустоту (/заменяемое/) g - для всех строк >> перезаписываем b
+        sed '/^0x/s/0x//g' b >> c
+        #sed -r 's0x/' b
+        cat c
+        rm b
+        rm c
+        ;;
+
+    set)
+            # set hours
+            if [[ $4 != "" ]]
+            then
+            $(i2cset -y 0 0x68 0x02 0x$2)
+            fi
+
+            # set min
+            if [[ $3 != "" ]]
+            then
+            $(i2cset -y 0 0x68 0x01 0x$3)
+            fi
+
+            # set sec
+            if [[ $2 != "" ]]
+            then
+            $(i2cset -y 0 0x68 0x00 0x$4)
+            fi
+
+        echo "time:" $2":"$3":"$4
+        ;;
+esac
+
+fi

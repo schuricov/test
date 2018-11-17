@@ -1,0 +1,138 @@
+td, div, svg {
+    /*border:1px solid;*/
+}
+
+/*стилем управляет контроллер*/
+#caption {
+
+    /*font-size: 100%;*/
+}
+
+/* --------------------------------------------- BODY */
+
+body {
+    color: #839496; /*контент*/
+    background: #302c36;
+    -background-image:url("body-back.jpg");
+}
+
+#body_page{
+    -width: 100%;
+    /*width: 940px;*/
+    /*margin: 0px auto; !* выравниваем по центру  *!*/
+    -background-color: #e4e4e4;
+    -box-shadow: 10px 10px 20px #000 ; /* Смещение X,Y, размах, толщина цвет */
+}
+
+/* --------------------------------------------- HEADER */
+
+#header{
+    border-top:1px dotted #b96869;
+    border-bottom:1px dotted #b96869;
+
+}
+
+#caption, #menu {
+
+    width: auto;
+    margin: auto;
+
+    text-align: center;
+    font-family: 'DejaVu Sans';
+    -padding: 10px;
+}
+
+.menu {
+    padding-right: 20px;
+}
+
+#table2 {
+    border:1px solid;
+    margin: auto;
+}
+
+/* --------------------------------------------- PIN BUTTONS */
+
+#pin-buttons{
+    /*выравниване по центру*/
+    text-align: center;
+    margin: 1% auto;
+
+}
+
+/* --------------------------------------------- ONION DIAGRAM */
+
+#onion-diagram {
+
+    /*max-width: 50vmin;*/
+    /*max-width: 70vmin;*/
+    /*max-width: 100%;*/
+    /*border: 1px solid grey;*/
+    margin: auto;
+    /*font-weight: bold;*/
+
+}
+
+#onion-diagram-tab-1, #onion-diagram-tab-2{
+    margin-top: 4vmin;
+
+}
+
+#onion-diagram-tab-1 td, #onion-diagram-tab-2 td{
+    text-align: center;
+    border: 1px solid grey;
+}
+
+#onion-diagram td{
+    font-size: 2vmin;  /* динамический размер шрифта */
+    /*font-size: 2.278vmin;  !* динамический размер шрифта *!*/
+    /*border: 1px solid grey;*/
+    /*padding: 3px;*/
+}
+
+#onion-diagram-img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* --------------------------------------------- FOOTER */
+#footer {
+    margin: auto;
+    /*margin: 0px;*/
+    /*padding: 10px;*/
+    /*width: 100%;*/
+    color: #666;
+    font: 12px/10px Verdana, bold;
+    background-color: rgba(50, 50, 50, 0.6);
+}
+
+#footer-table{
+    width: 100%;
+}
+
+#left{
+    text-align: left;
+    padding: 10px;
+
+}
+
+#right{
+    text-align: right;
+    padding: 10px;
+
+}
+
+#footer span {
+    color:#090;
+}
+
+
+
+
+
+
+
+
+
