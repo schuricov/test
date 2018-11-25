@@ -126,7 +126,6 @@
                 if (xhr.status == 200) {
 
                     var data = xhr.response;
-                    // var data = xhr.responseText;
                     // console.log(data);
 
                     var json = JSON.parse(data);

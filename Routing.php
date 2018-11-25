@@ -2,6 +2,7 @@
 //echo "File: " .  __FILE__ . "\n";
 //echo "Get: \n";
 //echo print_r($_GET) . "\n";
+
 require_once 'FastGpio.php';
 require_once 'I2C.php';
 
@@ -9,12 +10,12 @@ class Routing
 //class Routing extends FastGpio
 {
     private $fastGpio;
-    private $I2c;
+    private $i2c;
 
     public function __construct()
     {
         $this->fastGpio = new FastGpio();
-        $this->I2c = new I2C();
+        $this->i2c = new I2C();
     }
 
     public function init()
@@ -27,39 +28,44 @@ class Routing
 
         switch ($data) {
 
-            case 'i2cget':
-                $this->fastGpio->getValue($_GET['i2cget']);
-                $this->fastGpio->send();
+            case 'iget':
+                $this->i2c->iGet($_GET['dev'], $_GET['addr']);
+                $this->i2c->output();
+                break;
+
+            case 'iset':
+                $this->i2c->iSet($_GET['dev'], $_GET['addr'], $_GET['val']);
+                $this->i2c->output();
                 break;
 
             case 'get':
                 $this->fastGpio->getValue($_GET['gpio'], $_GET['get']);
-                $this->fastGpio->send();
+                $this->fastGpio->output();
                 break;
 
             case 'set':
                 $this->fastGpio->setValue($_GET['gpio'], $_GET['set']);
-                $this->fastGpio->send();
+                $this->fastGpio->output();
                 break;
 
             case 'getdir':
                 $this->fastGpio->getDirecton($_GET['gpio'], $_GET['getdir']);
-                $this->fastGpio->send();
+                $this->fastGpio->output();
                 break;
 
             case 'setdir':
                 $this->fastGpio->setDirecton($_GET['gpio'], $_GET['setdir']);
-                $this->fastGpio->send();
+                $this->fastGpio->output();
                 break;
 
             case 'pwm':
                 $this->fastGpio->setPwm($_GET['gpio'], $_GET['freq'], $_GET['duty']);
-                $this->fastGpio->send();
+                $this->fastGpio->output();
                 break;
 
             case 'getall':
                 $this->fastGpio->getAll();
-                $this->fastGpio->send();
+                $this->fastGpio->output();
                 break;
 
         }

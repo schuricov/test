@@ -1,5 +1,7 @@
 <?php
-class FastGpio
+include_once 'Gate.php';
+
+class FastGpio extends Gate
 {
 
 //    const LOGFILE          = 'IO.LOG';
@@ -12,8 +14,7 @@ class FastGpio
 //    const ALLOWGPIO = [0,44,45,46]; // Omega omion2+
     const ALLGPIO = ['GND',11,3,2,17,16,15,46,45,9,8,7,6,1,0,'RST','GND','VIN','D+','D-','13','12','38','VOUT','TX-','TX+','RX-','RX+','18','19','4','5']; // Omega omion2+
     const ALLOWGPIO = [0,1,2,3,4,5,6,7,8,9,11,12,13,15,16,17,18,19,38,44,45,46]; // Omega omion2+ (44pin - led)
-    public $bufer = [];
-
+//    const ALLOWGPIO = [0,1,2,3,4,5,6,7,8,9,11,12,13,15,16,17,18,19,38,45,46]; // Omega omion2+ (44pin - led)
 
     public function getValue($gpio){
 
@@ -60,40 +61,6 @@ class FastGpio
             $this->getValue($gpio);
             $this->getDirecton($gpio);
         }
-
-    }
-
-    public function send(){
-
-//        echo print_r($this->bufer);
-
-        print(json_encode($this->bufer));
-
-    }
-
-    public function execCommand($command){
-
-//        $answer = "{\"cmd\":\"Read\", \"pin\":44, \"val\":\"1\"}";
-//        $answer = exec($command);
-        $answer = json_decode(exec($command), true);
-
-        array_push($this->bufer, $answer);
-
-        return true;
-    }
-
-    public function log(){
-
-        $function = debug_backtrace();
-        $function = $function[2]['function'];
-
-        echo "---------------------LOG---------------------\n";
-        echo 'function: '.$function."\n";
-        echo 'command:  '.$this->command."\n";
-        echo 'answer:   '.$this->answer."\n";
-        echo 'result:   '.print_r($this->result, 1)."\n";
-        echo "---------------------------------------------\n";
-
 
     }
 

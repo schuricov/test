@@ -3,13 +3,13 @@
 #conditional for entering argument
 
 # checking came parametrs
-if [[ -n $1 ]]
+if [[ $1 ]]
 then
 
 case $1 in
 
-    get)
-        for a in 0 1 2 3 4 5 6
+    getNO)
+        for a in 0 1 2
         do
         #echo $(i2cget -y 0 0x68 0x0$a)":0x0"$a >> b
         echo $(i2cget -y 0 0x68 0x0$a) >> b
@@ -24,7 +24,87 @@ case $1 in
         rm c
         ;;
 
+    setsystime)
+        b=$(i2cget -y 0 0x68 0x02;)':'$(i2cget -y 0 0x68 0x01;)':'$(i2cget -y 0 0x68 0x00;)
+        echo $b > b;
+        time=$(sed 's/0x//g' b)
+        rm b;
+        date +%T -s "$time"
+        ;;
+
+#set system time
+#read from real time clock i2c
+
+#-----------------------------------------------------
+
+    get-rtc)
+        for a in 2 1 0
+        do
+        echo $(i2cget -y 0 0x68 0x0$a) >> b
+        done
+
+        sed 's/0x//g' b >> c
+        sed ':a;N;$!ba;s/\n/:/g' c >> d
+        time=$(cat d)
+
+        echo $time;
+        rm b; rm c; rm d;
+        ;;
+
+#-----------------------------------------------------
+
+    get-sys)
+
+        date;
+        ;;
+
+#-----------------------------------------------------
+
+    set-sys)
+        for a in 2 1 0
+        do
+        echo $(i2cget -y 0 0x68 0x0$a) >> b
+        done
+
+# cicle/replace >   :a;N;$!ba;
+
+        sed 's/0x//g' b >> c
+        sed ':a;N;$!ba;s/\n/:/g' c >> d
+        time=$(cat d)
+
+# set date
+        date +%T -s "$time"
+        rm b; rm c; rm d;
+        ;;
+
+
+#-----------------------------------------------------
+
+    set-rtc)
+
+
+    if [[ $2 != "" ]]
+        then
+        echo $2 > b                             # заменяем : на \n
+        sed 's/:/\n/g' b > c                    # вставлем в начало строки 0x
+        sed 's/^/0x/g' c > b
+                                                # перебераем строки файла, записываем в rtc
+        a=2;
+        while read -r line
+        do
+
+            $(i2cset -y 0 0x68 0x0$a $line)
+            let a--
+
+        done < "b"
+
+        echo "set rtc time: " $2
+        rm b; rm c;
+        fi
+    ;;
+
     set)
+
             # set hours
             if [[ $4 != "" ]]
             then
@@ -47,4 +127,14 @@ case $1 in
         ;;
 esac
 
+else
+
+echo '
+get rtc time: get-rtc
+set rtc time: set-rtc (HH:MM:SS) 15:49:50
+get sys time: get-sys
+set sys time: set-sys
+';
+
 fi
+

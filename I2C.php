@@ -1,44 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alexander
- * Date: 17.11.18
- * Time: 22:23
- */
 
-class I2C
+include_once 'Gate.php';
+
+
+class I2C extends Gate
 {
-    public $bufer = [];
+    private $bus = 0;
 
-    public function getValue($gpio = null){
+    public function iGet($dev, $addr, $key = 'b'){
 
-        $this->execCommand("i2cget -y 0 0x68 0x00");
-        echo print_r($this->bufer, 1);
-
-    }
-
-    public function setValue($gpio, $value){
-
-        $this->execCommand("i2cget -y 0 0x68 0x00");
+        $this->execCommand("i2cget -y $this->bus 0x$dev 0x$addr $key;");
+        $this->bufer = str_replace("0x", "", $this->bufer);
 
     }
 
-    public function execCommand($command){
+    public function iSet($dev, $addr, $val){
 
-        $answer = json_decode(exec($command), true);
-
-        array_push($this->bufer, $answer);
-
-        return true;
-    }
-
-    public function send(){
-
-//        echo print_r($this->bufer);
-
-        print(json_encode($this->bufer));
+        $this->execCommand("i2cset -y $this->bus 0x$dev 0x$addr 0x$val; i2cget -y $this->bus 0x$dev 0x$addr");
 
     }
-
 
 }
